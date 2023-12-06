@@ -14,10 +14,9 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
+
 from django.contrib import admin
-from django.urls import path
-from django.contrib import admin
-from django.urls import path
+from django.urls import path, include
 from random import random
 from django.http import HttpResponse
 from app_datetime.views import datetime_view
@@ -37,8 +36,10 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('random/', random_view),
     path('datetime/', datetime_view),
-    path('weather/', my_view),
-    path('product/', products_view),
-    path('', shop_view),
+    path('weather1/', my_view),
+    path('', include('app_weather.urls')),
+    # path('product/', products_view),
+    path('', include('store.urls')),
+
 ]
 
