@@ -16,20 +16,19 @@ def products_view(request):
 
             return HttpResponseNotFound("Данного продукта нет в базе данных")
 
-    return JsonResponse(DATABASE, json_dumps_params={'ensure_ascii': False, 'indent': 4})
+    # return JsonResponse(DATABASE, json_dumps_params={'ensure_ascii': False, 'indent': 4})
 
-
-    category_key = request.GET.get(filtering_category())  # Считали 'category'
-    if ordering_key := request.GET.get("ordering"):     # Если в параметрах есть 'ordering'
-         if request.GET.get("reverse") in ('true', 'True'):      # Если в параметрах есть 'ordering' и 'reverse'=True
-             data = filter(lambda key: key, ordering_key)    # TODO Провести фильтрацию с параметрами
-    #     else:
-    #         data =    # TODO Провести фильтрацию с параметрами
-    # else:
-    #     data = filter(lambda key: key, category_key) #  TODO Провести фильтрацию с параметрами
-    #         # В этот раз добавляем параметр safe=False, для корректного отображения списка в JSON
-    # return JsonResponse(data, safe=False, json_dumps_params={'ensure_ascii': False,
-    #                                                                  'indent': 4})
+        category_key = request.GET.get("category")  # Считали 'category'
+        if ordering_key := request.GET.get("ordering"):  # Если в параметрах есть 'ordering'
+            if request.GET.get("reverse") in ('true', 'True'):  # Если в параметрах есть 'ordering' и 'reverse'=True
+                data = filtering_category(DATABASE, category_key, ordering_key, reverse=True) # TODO Использовать filtering_category и провести фильтрацию с параметрами category, ordering, reverse=True
+            else:  # Если не обнаружили в адресно строке ...&reverse=true , значит reverse=False
+                data = filtering_category(DATABASE, category_key, ordering_key, reverse=False) # TODO Использовать filtering_category и провести фильтрацию с параметрами category, ordering, reverse=False
+        else:
+            data = filtering_category(DATABASE, category_key)  # TODO Использовать filtering_category и провести фильтрацию с параметрами category
+        # В этот раз добавляем параметр safe=False, для корректного отображения списка в JSON
+        return JsonResponse(data, safe=False, json_dumps_params={'ensure_ascii': False,
+                                                                 'indent': 4})
 
 
 def products_page_view(request, page):
@@ -58,3 +57,38 @@ def shop_view(request):
         with open('store/shop.html', encoding="utf-8") as f:
             data = f.read()  # Читаем HTML файл
         return HttpResponse(data)  # Отправляем HTML файл как ответ
+
+
+
+from logic.services import view_in_cart, add_to_cart, remove_from_cart
+
+
+def cart_view(request):
+    if request.method == "GET":
+        data = view_in_cart()   # TODO Вызвать ответственную за это действие функцию
+        return JsonResponse(data, json_dumps_params={'ensure_ascii': False,
+                                                     'indent': 4})
+
+
+def cart_add_view(request, id_product):
+    if request.method == "GET":
+        result = add_to_cart(id_product) # TODO Вызвать ответственную за это действие функцию и передать необходимые параметры
+        if result:
+            return JsonResponse({"answer": "Продукт успешно добавлен в корзину"},
+                                json_dumps_params={'ensure_ascii': False})
+
+        return JsonResponse({"answer": "Неудачное добавление в корзину"},
+                            status=404,
+                            json_dumps_params={'ensure_ascii': False})
+
+
+def cart_del_view(request, id_product):
+    if request.method == "GET":
+        result = remove_from_cart(id_product) # TODO Вызвать ответственную за это действие функцию и передать необходимые параметры
+        if result:
+            return JsonResponse({"answer": "Продукт успешно удалён из корзины"},
+                                json_dumps_params={'ensure_ascii': False})
+
+        return JsonResponse({"answer": "Неудачное удаление из корзины"},
+                            status=404,
+                            json_dumps_params={'ensure_ascii': False})
