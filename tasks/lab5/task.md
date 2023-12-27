@@ -68,7 +68,7 @@ def coupon_check_view(request, name_coupon):
         # TODO Если купона нет в базе, то верните HttpResponseNotFound("Неверный купон")
 ```
 
-Представление должно обрабатываться по маршруту `coupon/check/``<``slug:coupon``>` в `urls.py` приложения `store`
+Представление должно обрабатываться по маршруту `coupon/check/``<``slug:name_coupon``>` в `urls.py` приложения `store`
 
 Проверить работу можно по маршруту 
 
