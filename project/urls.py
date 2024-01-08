@@ -24,6 +24,7 @@ from app_weather.views import my_view
 from store.views import products_view
 from store.views import shop_view
 from app_login.views import login_view
+from wishlist.views import wishlist_view
 
 
 
@@ -42,6 +43,7 @@ urlpatterns = [
     # path('product/', products_view),
     path('', include('store.urls')),
     path('login/', include('app_login.urls')),
+    path('wishlist/', include('wishlist.urls'))
 
 
 ]
