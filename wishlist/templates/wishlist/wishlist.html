@@ -1,74 +1,10 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
+{% extends 'store/base.html' %} <!-- Расширение не меняем, оно нормально подтянется-->
+{%load static%}
+{% block title %}
     <title>Избранное</title>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    
-    <link href="https://fonts.googleapis.com/css?family=Poppins:200,300,400,500,600,700,800&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css?family=EB+Garamond&display=swap" rel="stylesheet">
-	<link href="https://fonts.googleapis.com/css?family=Pacifico&display=swap" rel="stylesheet">
+{% endblock %}
 
-    <link rel="stylesheet" href="static/css/open-iconic-bootstrap.min.css">
-    <link rel="stylesheet" href="static/css/animate.css">
-
-    <link rel="stylesheet" href="static/css/owl.carousel.min.css">
-    <link rel="stylesheet" href="static/css/owl.theme.default.min.css">
-    <link rel="stylesheet" href="static/css/magnific-popup.css">
-
-    <link rel="stylesheet" href="static/css/aos.css">
-
-    <link rel="stylesheet" href="static/css/ionicons.min.css">
-
-    <link rel="stylesheet" href="static/css/bootstrap-datepicker.css">
-    <link rel="stylesheet" href="static/css/jquery.timepicker.css">
-
-
-    <link rel="stylesheet" href="static/css/flaticon.css">
-    <link rel="stylesheet" href="static/css/icomoon.css">
-    <link rel="stylesheet" href="static/css/style.css">
-  </head>
-  <body class="goto-here">
-  	<div class="py-1 bg-primary">
-		<div class="container">
-    		<div class="row no-gutters d-flex align-items-start align-items-center px-md-0">
-	    		<div class="col-lg-12 d-block">
-		    		<div class="row d-flex">
-		    			<div class="col-md pr-4 d-flex topper align-items-center">
-					    	<div class="icon mr-2 d-flex justify-content-center align-items-center"><span class="icon-phone2"></span></div>
-						    <span class="text">+ 7 (812) 123 45 678</span>
-					    </div>
-					    <div class="col-md pr-4 d-flex topper align-items-center">
-					    	<div class="icon mr-2 d-flex justify-content-center align-items-center"><span class="icon-paper-plane"></span></div>
-						    <span class="text">mystore@email.ru</span>
-					    </div>
-					    <div class="col-md-5 pr-4 d-flex topper align-items-center text-lg-right">
-						    <span class="text">Доставка в течении 3-5 рабочих дней. Бесплатный возврат</span>
-					    </div>
-				    </div>
-			    </div>
-		    </div>
-		  </div>
-    </div>
-    <nav class="navbar navbar-expand-lg navbar-dark ftco_navbar bg-dark ftco-navbar-light" id="ftco-navbar">
-	    <div class="container">
-	      <a class="navbar-brand" href="#">Vegefoods</a>
-	      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#ftco-nav" aria-controls="ftco-nav" aria-expanded="false" aria-label="Toggle navigation">
-	        <span class="oi oi-menu"></span> Навигация
-	      </button>
-
-	      <div class="collapse navbar-collapse" id="ftco-nav">
-	        <ul class="navbar-nav ml-auto">
-	          <li class="nav-item"><a href="shop.html" class="nav-link">Магазин</a>
-			  <li class="nav-item"><a href="wishlist.html" class="nav-link">Избранное</a>
-			  <li class="nav-item"><a href="cart.html" class="nav-link">Корзина</a>
-			  <li class="nav-item"><a href="login.html" class="nav-link">Войти в аккаунт</a>
-	        </ul>
-	      </div>
-	    </div>
-	  </nav>
-    <!-- END nav -->
-
+{% block content %}
     <div class="hero-wrap hero-bread" style="background-image: url('static/images/bg_1.jpg');">
       <div class="container">
         <div class="row no-gutters slider-text align-items-center justify-content-center">
@@ -95,96 +31,23 @@
 						      </tr>
 						    </thead>
 						    <tbody>
+							{% for product in products %}
 						      <tr class="text-center">
-						        <td class="product-remove"><a href="#"><span class="ion-ios-close"></span></a></td>
+						        <td class="product-remove"><a href="{% url 'wishlist:remove_from_wishlist' product.id %}"><span class="ion-ios-close"></span></a></td>
 						        
 						        <td class="image-prod"><a href="products/bell_pepper.html">
-									<div class="img" style="background-image:url(static/images/product-1.jpg);"></div>
+									<div class="img" style="background-image:url({% static product.url %});"></div>
 								</a></td>
 						        
 						        <td class="product-name">
-						        	<h3>Болгарский перец</h3>
-						        	<p>Сочный и яркий, он добавит красок и вкуса в ваши блюда.</p>
+						        	<h3>{{product.name}}</h3>
+						        	<p>{{product.description}}</p>
 						        </td>
 						        
-						        <td class="price"><del>300.00</del> 210.00</td>
+						        <td class="price">{{product.price_after}}</td>
 						      </tr><!-- END TR-->
+							{% endfor %}
 
-						      <tr class="text-center">
-						        <td class="product-remove"><a href="#"><span class="ion-ios-close"></span></a></td>
-						        
-						        <td class="image-prod"><a href="products/strawberry.html">
-									<div class="img" style="background-image:url(static/images/product-2.jpg);"></div>
-								</a></td>
-						        
-						        <td class="product-name">
-						        	<h3>Клубника</h3>
-						        	<p>Сладкая и ароматная клубника, полная витаминов, чтобы сделать ваш день ярче.</p>
-						        </td>
-						        
-						        <td class="price">500.00</td>
-						      </tr><!-- END TR-->
-
-						      <tr class="text-center">
-						        <td class="product-remove"><a href="#"><span class="ion-ios-close"></span></a></td>
-						        
-						        <td class="image-prod"><a href="products/green_beans.html">
-									<div class="img" style="background-image:url(static/images/product-3.jpg);"></div>
-								</a></td>
-						        
-						        <td class="product-name">
-						        	<h3>Стручковая фасоль</h3>
-						        	<p>Зеленая натуральность и богатство белка для вашей здоровой диеты.</p>
-						        </td>
-						        
-						        <td class="price">250.00</td>
-
-						      </tr><!-- END TR-->
-
-						      <tr class="text-center">
-						        <td class="product-remove"><a href="#"><span class="ion-ios-close"></span></a></td>
-						        
-						        <td class="image-prod"><a href="products/purple_cabbage.html">
-									<div class="img" style="background-image:url(static/images/product-4.jpg);"></div>
-								</a></td>
-						        
-						        <td class="product-name">
-						        	<h3>Краснокочанная капуста</h3>
-						        	<p>Удивите своих гостей экзотическим вкусом и цветом ваших блюд.</p>
-						        </td>
-						        
-						        <td class="price">90.00</td>
-						      </tr><!-- END TR-->
-
-						      <tr class="text-center">
-						        <td class="product-remove"><a href="#"><span class="ion-ios-close"></span></a></td>
-						        
-						        <td class="image-prod"><a href="products/tomatoe.html">
-									<div class="img" style="background-image:url(static/images/product-5.jpg);"></div>
-								</a></td>
-						        
-						        <td class="product-name">
-						        	<h3>Помидоры</h3>
-						        	<p>Свежие и сочные помидоры для идеальных салатов и соусов.</p>
-						        </td>
-						        
-						        <td class="price"><del>240.00</del> 180.00</td>
-						      </tr><!-- END TR-->
-
-						      <tr class="text-center">
-						        <td class="product-remove"><a href="#"><span class="ion-ios-close"></span></a></td>
-						        
-						        <td class="image-prod"><a href="products/brocolli.html">
-									<div class="img" style="background-image:url(static/images/product-6.jpg);"></div>
-								</a></td>
-						        
-						        <td class="product-name">
-						        	<h3>Брокколи</h3>
-						        	<p>Здоровье в каждом кусочке, чтобы укрепить вашу иммунную систему.</p>
-						        </td>
-						        
-						        <td class="price">320.00</td>
-						      </tr><!-- END TR-->
 						    </tbody>
 						  </table>
 					  </div>
@@ -192,6 +55,7 @@
     		</div>
 			</div>
 		</section>
+{% endblock %}
 
 		<section class="ftco-section ftco-no-pt ftco-no-pb py-5 bg-light">
       <div class="container py-4">
