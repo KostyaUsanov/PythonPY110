@@ -170,7 +170,7 @@ def add_to_wishlist(request, id_product: str) -> bool:
 
 
 
-def remove_from_wishlist(request, id_product: str) -> bool:
+def del_from_wishlist(request, id_product: str) -> bool:
     """
     Добавляет позицию продукта из избранного. Если в избранном есть такой продукт, то удаляется ключ в словаре
     с этим продуктом.
@@ -203,7 +203,7 @@ def add_user_to_wishlist(request, username: str) -> None:
 
     if not wishlist:  # Если пользователя до настоящего момента не было в корзине, то создаём его и записываем в базу
         with open('wishlist.json', mode='w', encoding='utf-8') as f:
-            wishlist_users[username] = {'products': {}}
+            wishlist_users[username] = {'products': []}
             json.dump(wishlist_users, f)
 
 
